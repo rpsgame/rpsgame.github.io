@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Render depth</title>
+    <script type="text/javascript" src="Vector3.js"></script>
+    <script type="text/javascript" src="Ray3.js"></script>
+    <script type="text/javascript" src="IntersectResult.js"></script>
+    <script type="text/javascript" src="Sphere.js"></script>
+    <script type="text/javascript" src="Plane.js"></script>
+    <script type="text/javascript" src="Union.js"></script>
+    <script type="text/javascript" src="PerspectiveCamera.js"></script>
+    <script type="text/javascript">
+function renderDepth(canvas, scene, camera, maxDepth) {
+    if (!canvas || !canvas.getContext) 
+        return;
+
+    var ctx = canvas.getContext("2d");
+    if (!ctx.getImageData)
+        return;
+
+    var w = canvas.attributes.width.value;
+    var h = canvas.attributes.height.value;
+    ctx.fillStyle = "rgb(0,0,0)";
+    ctx.fillRect(0, 0, w, h);
+
+    var imgdata = ctx.getImageData(0, 0, w, h);
+    var pixels = imgdata.data;
+
+    scene.initialize();
+    camera.initialize();
+
+    var i = 0;
+    for (var y = 0; y < h; y++) {
+        var sy = 1 - y / h;
+        for (var x = 0; x < w; x++) {
+            var sx = x / w;            
+            var ray = camera.generateRay(sx, sy);
+            var result = scene.intersect(ray);
+            if (result.geometry) {
+                var depth = 255 - Math.min((result.distance / maxDepth) * 255, 255);
+                pixels[i    ] = depth;
+                pixels[i + 1] = depth;
+                pixels[i + 2] = depth;
+                pixels[i + 3] = 255;
+            }
+            i += 4;
+        }
+    }
+
+    ctx.putImageData(imgdata, 0, 0);
+}
+    </script>
+</head>
+<body onload="">
+<canvas id="renderCanvas" width="256" height="256"></canvas>
+<br />
+<textarea id="code" rows="10" cols="100">
+renderDepth(
+    document.getElementById('renderCanvas'), 
+    new Union([
+        new Plane(new Vector3(0, 1, 0), 0),
+        new Sphere(new Vector3(0, 10, -10), 10)
+    ]),
+    new PerspectiveCamera(new Vector3(0, 10, 10), new Vector3(0, 0, -1), new Vector3(0, 1, 0), 90),
+    20);</textarea>
+<br/>
+<button onclick="eval(document.getElementById('code').value)">Run</button>
+</body>
+</html>
