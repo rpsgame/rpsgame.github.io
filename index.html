@@ -82,7 +82,7 @@
                 });
             }
             
-            url = 'markdown/' + url;        
+            url = 'md/' + url;        
 
             $.ajax({
 			  url: url,
@@ -98,7 +98,7 @@
                     $("img").each(function(){
                         $(this).attr('alt', '')
                         .attr('loading', 'lazy')
-                        .attr('src', 'http://192.168.0.107/' + $(this).attr("src"));
+                        .attr('src', 'https://liuliqiang.com/' + $(this).attr("src"));
                     });
                     
                     $("#content").show();     
