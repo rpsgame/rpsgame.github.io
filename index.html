@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="liuliqiang" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="#">
+    <title></title>
+    
+<style>
+    body {
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+    
+    #content{
+        margin: 0.5em 10% auto 10%; /* 上右下左 */
+    }
+
+    #list{
+        margin: 0em 10% auto 0%; /* 上右下左 */
+    }
+        
+    .title:hover{
+        cursor: pointer; /* 手指 */
+        text-decoration: underline; /* 下划线 */
+    }
+    
+    .ul{
+        list-style-type: none; /* 去掉小黑点 */
+    }
+
+    .li{
+        margin: 0 0 0.5em 0;
+    }
+
+    .date{
+        color: #C0C0C0;
+        margin: 0 0.5em 0 0;
+    }
+    
+</style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <link rel="stylesheet" href="http://192.168.0.107/prism.css">
+    <script src="http://192.168.0.107/prism.js" data-manual></script>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha512-mQwom8Ns4op+H29oDkD/LXO/OsXPvCFfkgZkFAVrhhePzRLU8NUI3Nkm43NhWUSmj3p5Cca2HTEkMQmXQRwDQQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js" integrity="sha512-sHSNLECRJSK+BFs7E8DiFc6pf6n90bLI85Emiw1jhreduZhK3VXgq9l4kAt9eTIHYAcuQBKHL01QKs4/3Xgl8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js" integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+
+    <script>
+    $(function()
+    {   
+        function loadUrl(url)
+        {
+            function genHTML(data)
+            {
+                var mathtext = new Array();
+                var mathtextInline = new Array();
+                var text = data.replace(/\$\$([\s\S]+?)\$\$/g, function(_,s){
+                    mathtext.push(s);
+                    return "{{mathtext}}";
+                }).replace(/\$([\s\S]+?)\$/g, function(_,s){
+                    mathtextInline.push(s);
+                    return "{{mathtext-inline}}";
+                });
+                
+                mathtext.reverse();
+                mathtextInline.reverse();
+
+                return window.markdownit().render(text)
+                .replace(/{{mathtext}}/g, function(){
+                    return "<div style='text-align:center'>" + katex.renderToString(mathtext.pop(),{
+                        throwOnError: false
+                    }) + "</div>";
+                }).replace(/{{mathtext-inline}}/g, function(){
+                    return katex.renderToString(mathtextInline.pop(),{
+                        throwOnError: false
+                    });
+                });
+            }
+            
+            url = 'markdown/' + url;        
+
+            $.ajax({
+			  url: url,
+			  type: 'GET',
+			  success: function(result){
+                    var html = genHTML(result);              
+                    //console.log(html);
+
+                    $("#content").empty().html(html);
+                    
+                    Prism.highlightAll();
+                    
+                    $("img").each(function(){
+                        $(this).attr('alt', '')
+                        .attr('loading', 'lazy')
+                        .attr('src', 'http://192.168.0.107/' + $(this).attr("src"));
+                    });
+                    
+                    $("#content").show();     
+                    $("#back_top").show();
+                    $("#back_home").show();
+                    $("#list").hide();
+                }
+            });    
+        }
+
+        var r1 = Math.floor(Math.random()*0xffffffff);
+        var r2 = Math.floor(Math.random()*0xffffffff);
+        var randomStr = r1.toString() + r2.toString();
+        //console.log(randomStr);        
+        
+        function loadHome(json)
+        {
+            $("title").html("liuliqiang's blog");
+
+            //console.log(json);
+            
+            $("#content").hide();     
+            $("#back_top").hide();
+            $("#back_home").hide();
+            $("#list").show();
+
+            var ul = $("<ul class='ul'></ul>");
+            json.forEach(function(item){
+                var li = $("<li class='li'></li>");
+                var date = $("<span class='date'>" + item.date + "</span>");
+                var title = $("<span class='title' url='" + item.url + "?" + randomStr + "'>" + item.title + "</span>");
+                li.append(date).append(title);            
+                ul.append(li);
+            })
+            
+            $("#list").empty().append(ul);       
+            
+            console.log($("p.list")[0]);        
+            $(".title").click(function(){ // 必须放在最后
+                $("title").html($(this).text());
+                loadUrl($(this).attr('url'));
+            });      
+        }
+
+        $("#back_top").click(function(){
+            $("html,body").animate({scrollTop:"0px"},100);
+        });
+
+        var jsonSaved;
+        $("#back_home").click(function(){
+            loadHome(jsonSaved);
+        });
+        
+        $.getJSON("/index.json?"+randomStr,function(json){
+            jsonSaved = json;
+            loadHome(json);
+        });
+    })
+    </script>
+
+<style>
+    .arrow{
+        border: 9px solid transparent;
+        border-bottom-color: #808080;
+        width: 0px;
+        height: 0px;
+        top:0px
+    }
+    .stick{
+        width: 8px;
+        height: 16px;
+        border-radius: 1px;
+        background-color: #808080;
+        bottom: 9px;
+    }
+    
+    .arrow, .stick{
+        position: absolute;
+        margin: auto;
+        right: 0px;
+        left: 0px;
+    }
+
+    .arrowleft{
+        position: absolute;
+        margin: auto;    
+        border: 9px solid transparent; /* 边宽9px，透明 */
+        border-right-color: #808080; /* 修改右侧边颜色为非透明，其他三个边还是透明 */
+        width: 0px; /* 宽高都是0，只显示右侧边，形成箭头状 */
+        height: 0px;
+        top: 10px; /* 只显示右侧边，则总高为两倍的border为 18px，父节点高38px，则一侧边距为(38-18)/2=10px */
+        right: auto;
+        left: 0px;
+    }
+    .stickleft{
+        position: absolute;
+        margin: auto;    
+        width: 16px;
+        height: 8px;
+        border-radius: 1px; /* 圆角半径 */
+        background-color: #808080;
+        top: 15px; /* 高8px，父节点高38px，则边距为(38-8)/2=15px */
+        right: 9px; /* 箭头左边距即为边宽9px，这里也左移9px */
+    }    
+    
+    #back_top, #back_home{
+        background-color: #D3D3D3;
+        height: 38px;
+        width: 38px;
+        border-radius: 3px;
+        display: block;
+        cursor: pointer;
+        position: fixed;
+        display: none;
+        bottom: 10px;       
+    }
+    #back_top{
+        left: 50px;   
+    }
+    #back_home{
+        left: 10px;
+    }
+
+    @media print{
+        #button{
+            display: none;
+        }
+    }
+
+.box {
+            width: 1000px;
+            /*height: 1000px;*/
+            line-height: 25px;
+            text-align: center;
+          
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            margin-left: 0px;
+            margin-top: 10px;
+     }
+     
+div.outer {
+    margin: 5% 10% 2% 10%;
+    width: 1000px;
+    line-height: 25px;
+}
+
+body.mobile div.outer {
+    margin: 4% 2% 2% 2%;
+}
+
+</style>
+
+</head>
+<body>
+
+<div id='list'></div>
+<div id='content' class="line-numbers"></div>
+
+
+<div id="button">
+    <div id="back_top">
+        <div class="arrow"></div>
+        <div class="stick"></div>
+    </div>
+
+    <div id="back_home">
+        <div class="arrowleft"></div>
+        <div class="stickleft"></div>
+    </div>
+</div>
+
+</body>
+</html>
