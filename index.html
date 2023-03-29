@@ -135,8 +135,7 @@
             })
             
             $("#list").empty().append(ul);       
-            
-            console.log($("p.list")[0]);        
+                   
             $(".title").click(function(){ // 必须放在最后
                 $("title").html($(this).text());
                 loadUrl($(this).attr('url'));
