@@ -13,8 +13,8 @@
 
 当点击文章名称时，再通过 `ajax` 获取该文章所对应的 `markdown` 文件，通过 `markdown-it` 和 `katex` 转换为 `html` 网页。
 
-转换过程是，首先通过正则表达式 `/\$\$([\s\S]+?)\$\$/g` 和 `/\$([\s\S]+?)\$/g` 替换并提取保存文章中的数学公式，替换使用的字符串应该在文章中不会出现，比如 `{{mathtext}}` 和 `{{mathtext-inline}}`。
+转换过程是，首先通过正则表达式提取保存并用占位符替换文章中的数学公式，替换用的占位字符串应该在文章中不会出现。
 
-然后使用 `window.markdownit().render` 函数做转换，对转换后的字符串搜索 `{{mathtext}}` 和 `{{mathtext-inline}}`，使用 `katex.renderToString` 函数转换之前保存的对应位置上的数学公式并替换。
+然后使用 `window.markdownit().render` 函数做转换，对转换后的字符串搜索占位符，使用 `katex.renderToString` 函数转换之前保存的对应位置上的数学公式并替换。
 
 可以在主页点击右键查看网页源代码。
