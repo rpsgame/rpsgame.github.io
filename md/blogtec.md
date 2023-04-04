@@ -11,4 +11,29 @@
 
 转换过程是，首先通过正则表达式提取保存并用占位符替换文章中的数学公式，替换用的占位字符串应该在文章中不会出现。然后使用 `window.markdownit().render` 函数做转换，对转换后的字符串搜索占位符，使用 `katex.renderToString` 函数转换之前保存的对应位置上的数学公式并替换。
 
+使用了 `github-markdown-css` 主题，导入时需要放在 `prism.css` 前面
+
 可以在主页点击右键查看网页源代码。
+
+下面是一些示例
+
+
+C语言代码
+```c
+#include <stdio.h>
+
+int main()
+{
+    printf("hello, world\n");
+
+    return 0;
+}
+```
+
+数学公式
+$$
+\iint_{\Sigma}\nabla\times\mathbf{F}\cdot\text{d}\mathbf{\Sigma}=\oint_{\partial\Sigma}\mathbf{F}\cdot\text{d}\mathbf{r}
+$$
+
+图片  
+![GitHub Logo](img/octocat.png)
