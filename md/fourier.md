@@ -6,28 +6,28 @@ n维向量 $(x_1,x_2,\cdots,x_n)$，可以看成是由n个函数值的函数，�
 一个函数$f(x)$，可以看成是一个无限维向量，且是不可数无限，其分量就是函数值，而自变量就是指标集，只是这个指标集是实数而非自然数
 
 n维向量 $\mathbf{v} = (x_1,x_2,\cdots,x_n)$可以表示为标准正交基向量$\{\mathbf{e}_i\}$的线性组合
-$$
+$$\displaystyle
 \mathbf{v} = x_1\mathbf{e}_1 +  x_2\mathbf{e}_2 +  x_3\mathbf{e}_3 + \cdots +  x_n\mathbf{e}_n = \sum_{k=1}^{n}x_k\mathbf{e}_k
 $$
 
 而每个基向量的系数可以由内积计算得到
-$$
+$$\displaystyle
 x_i = \mathbf{v}\cdot\mathbf{e}_i
 $$
 
 对于函数，可以选择一组标准正交基函数$\{\mathbf{B}(x)_i\}$，同样函数$f(x)$可以表示为该基函数的线性组合
-$$
+$$\displaystyle
 f(x) = a_1\mathbf{B}(x)_1 + a_2\mathbf{B}(x)_2 + \cdots + a_n\mathbf{B}(x)_n + \cdots = \sum_{k=1}^{+\infty}a_k\mathbf{B}(x)_k
 $$
 
 由于函数是 不可数无限维 向量，所以这组基函数的数量为可数无限个
 同样求每个基函数的系数可以由函数内积计算得到，函数内积就是两个函数的乘积在整个定义域上的积分
-$$
+$$\displaystyle
 a_i = \int{f(x)}\mathbf{B}(x)_i\text{d}x
 $$
 
 如下三角函数在定义域$[-\pi,\pi]$内可以构成一组正交基函数(不标准)
-$$
+$$\displaystyle
 1,\cos(x),\sin(x),\cos(2x),\sin(2x),\cos(3x),\sin(3x),\cdots,\cos(nx),\sin(nx),\cdots
 $$
 
@@ -58,43 +58,43 @@ $$\displaystyle\begin{aligned}
 \end{aligned}$$
 
 函数$f(x)$表示为上述基函数线性组合的形式，即傅里叶级数
-$$
+$$\displaystyle
 f(x) = \frac{a_0}{2}+\sum_{k=1}^{+\infty}[a_n\cos(nx)+b_k\sin(nx)]
 $$
 
 下面求这些系数
 对$f(x)$在$[-\pi,\pi]$内积分，得
-$$
+$$\displaystyle
 \int_{-\pi}^{\pi}f(x)\text{d}x = \frac{a_0}{2}\int_{-\pi}^{\pi}\text{d}x+\sum_{n=1}^{+\infty}[a_n\int_{-\pi}^{\pi}\cos(nx)\text{d}x+b_n\int_{-\pi}^{\pi}\sin(nx)\text{d}x]
 $$
 
 后面的求和项都是0，则
-$$
+$$\displaystyle
 a_0 = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\text{d}x
 $$
 
 根据正交性，求哪个基函数的系数就与哪个基函数求内积，只有该函数与自身的内积为$\pi$，其他项均为0
-$$
+$$\displaystyle
 \int_{-\pi}^{\pi}f(x)\cos(nx)\text{d}x = a_n\pi
 $$
 
 得
-$$
+$$\displaystyle
 a_n = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos(nx)\text{d}x
 $$
 
 同理可得
-$$
+$$\displaystyle
 b_n = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin(nx)\text{d}x
 $$
 
 前面的函数周期为$2\pi$，若$f(x)$以$2l$为周期，则做变量代换$x=\frac{l}{\pi}t$，则$\varphi(t) = f(\frac{l}{\pi}t)$为周期为$2\pi$的函数，验证
-$$
+$$\displaystyle
 \varphi(t+2\pi) = f(\frac{l}{\pi}(t+2\pi)) = f(\frac{l}{\pi}t+2l) = f(\frac{l}{\pi}t) = \varphi(t)
 $$
 
 则函数$\varphi(t)$可以如上傅里叶级数展开为
-$$
+$$\displaystyle
 \varphi(t) = \frac{a_0}{2}+\sum_{n=1}^{+\infty}[a_n\cos(nt)+b_n\sin(nt)]
 $$
 
@@ -106,7 +106,7 @@ $$\displaystyle\begin{aligned}
 \end{aligned}$$
 
 再通过带入反变量代换$t=\frac{\pi}{l}x$，并令$\omega_n=\frac{n\pi}{l}$，得
-$$
+$$\displaystyle
 f(x) = \frac{a_0}{2}+\sum_{n=1}^{+\infty}[a_n\cos(\omega_nx)+b_n\sin(\omega_nx)]
 $$
 
@@ -124,7 +124,7 @@ $$\displaystyle\begin{aligned}
 \end{aligned}$$
 
 带入$f(x)$的傅里叶展开式，得其复数形式
-$$
+$$\displaystyle
 f(x) = c_0+\sum_{n=1}^{+\infty}[c_ne^{j\omega_nx}+c_{-n}e^{-j\omega_nx}]
 $$
 
@@ -136,7 +136,7 @@ $$\displaystyle\begin{aligned}
 \end{aligned}$$
 
 写成统一形式
-$$
+$$\displaystyle
 f(x) = \sum_{n=-\infty}^{+\infty}c_ne^{j\omega_nx}
 $$
 
@@ -148,19 +148,19 @@ f(x) &= \sum_{n=-\infty}^{+\infty}c_ne^{j\omega_nx} \\
 \end{aligned}$$
 
 每个$\omega_n$都对应一个n值，也对应一个基函数，这是一个可数无限的指标集，如果指标集为不可数无限，则对应不可数无限个基函数，此时有$\Delta\omega_n\to0$时，上面的求和符号是由可数无限的基函数线性组合而来，此时改为不可数无限个基函数，则求和符号改为积分符号，并令周期$l\to+\infty$，得到
-$$
+$$\displaystyle
 f(x) = \frac{1}{2\pi}\int_{n=-\infty}^{+\infty}[\int_{-\infty}^{+\infty}f(\tau)e^{-j\omega\tau}\text{d}\tau]e^{j\omega x}\text{d}\omega
 $$
 
 此为傅里叶积分公式，内部积分是在求基函数系数，外部积分是在求基函数的线性组合
 
 令
-$$
+$$\displaystyle
 F(\omega) = \int_{-\infty}^{+\infty}f(\tau)e^{-j\omega\tau}\text{d}\tau
 $$
 
 则
-$$
+$$\displaystyle
 f(x) = \frac{1}{2\pi}\int_{n=-\infty}^{+\infty}F(\omega)e^{j\omega x}\text{d}\omega
 $$
 
@@ -184,6 +184,6 @@ F_n = F(\omega_n) &= \int_{-\infty}^{+\infty}f(\tau)e^{-j\omega_n\tau}\text{d}\t
 \end{aligned}$$
 
 取后面的和式为离散傅里叶变换
-$$
+$$\displaystyle
 F_n = \sum_{k=0}^{N-1}f_ke^{-j\frac{2\pi n}{N}k}
 $$
