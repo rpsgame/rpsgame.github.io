@@ -32,7 +32,7 @@ int main()
 
 数学公式
 $$
-\iint_{\Sigma}\nabla\times\mathbf{F}\cdot\text{d}\mathbf{\Sigma}=\oint_{\partial\Sigma}\mathbf{F}\cdot\text{d}\mathbf{r}
+\displaystyle\iint_{\Sigma}\nabla\times\mathbf{F}\cdot\text{d}\mathbf{\Sigma}=\oint_{\partial\Sigma}\mathbf{F}\cdot\text{d}\mathbf{r}
 $$
 
 图片  
