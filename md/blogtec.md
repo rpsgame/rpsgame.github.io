@@ -35,5 +35,5 @@ $$
 \displaystyle\iint_{\Sigma}\nabla\times\mathbf{F}\cdot\text{d}\mathbf{\Sigma}=\oint_{\partial\Sigma}\mathbf{F}\cdot\text{d}\mathbf{r}
 $$
 
-图片显示  
+图片
 ![GitHub Logo](img/octocat.png)
