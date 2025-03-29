@@ -820,7 +820,7 @@ static void sampleLight(void)
 
     __code struct triangle_t* light = &((__code struct triangle_t*)triangles)[lightIdx];
     const float cos_light_theta = dot_m(ray.direction, light->normal);
-    if (cos_light_theta <= 0.0)
+    if (cos_light_theta <= 0.0f)
     {
         return;
     }
@@ -907,7 +907,7 @@ static struct vec3_t view_x;
 static struct vec3_t view_y;
 static struct vec3_t view_z;
 static struct mat4_t view;
-void precompute_rt(void)
+static void precompute_rt(void)
 {
     vec3_assign_s3(eye, 0.0f, 1.0f, 3.5f);
     vec3_assign_s3(center, 0.0f, 1.0f, 0.0f);
