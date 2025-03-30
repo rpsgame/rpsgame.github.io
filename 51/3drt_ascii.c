@@ -719,8 +719,8 @@ static void precompute_rt(void)
     Y = 0;
 }
 
-#define LCD_W 64
-#define LCD_H 64
+#define LCD_W 32
+#define LCD_H 32
 
 static struct vec3_t colorbuffer[LCD_W][LCD_H];
 static uint32_t framecount;
@@ -772,7 +772,7 @@ static void samplePixel(void)
 #define drawpixel(x, y, r, g, b) \
 { \
     printf("\033[%d;%dH", y, x * 2); \
-	printf("\033[48;2;%d;%d;%dm  ", r, g, b); \
+    printf("\033[48;2;%d;%d;%dm  ", r, g, b); \
 }
 static void draw3drt(void)
 {
@@ -799,12 +799,12 @@ void main(void)
 
     precompute_rt();
 
-	while (1)
-	{
-		if (X == 0 && Y == 0)
-		{
+    while (1)
+    {
+        if (X == 0 && Y == 0)
+        {
             framecount += spp;
-		}
-		draw3drt();
-	}
+        }
+        draw3drt();
+    }
 }
