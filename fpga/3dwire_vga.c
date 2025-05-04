@@ -17,7 +17,6 @@ int putchar(int c)
 {
 	while (uart);
 	uart = c;
-	while (uart);
 	return c;
 }
 
